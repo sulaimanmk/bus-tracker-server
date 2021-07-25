@@ -8,6 +8,6 @@ router.route('/delete-stop').post(deleteBusstop);
 
 router.route('/update-bus-stop').post(updateBusstop);
 
-router.route('/fetch-all-stops').post(fetchBusstops);
+router.route('/fetch-all-stops').get(fetchBusstops);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const Bus = require('../models/Bus');
+const Busstop = require('../models/Busstop');
 
 
 /*
@@ -68,12 +69,10 @@ exports.deleteBus = async (req, res, next) => {
  */
 exports.createBus = async (req, res, next) => {
     const { number, readableName, busLocation } = req.body;
-    console.log(number, readableName, busLocation);
+    console.log(number, readableName);
     await Bus.create({
-
         number: number,
         readableName: readableName,
-        busLocation: busLocation,
     }).then((bus) => {
         return res.status(200).json({
             success: true,
@@ -95,26 +94,21 @@ exports.createBus = async (req, res, next) => {
 */
 
 exports.updateBusLocation = async (req, res, next) => {
-    const { busId, busLocation } = req.body;
-
-    console.log(busId, busLocation);
-
+    const { busId, busLocation, status } = req.body;
+    const busStop = await Busstop.findOne({_id:busLocation});
 
     await Bus.findByIdAndUpdate(busId, {
-
-        busLocation: busLocation
-
-    })
-
-        .then((data) => {
-            return res.status(200).json({
-                success: true,
-                message: 'location successfully updated ',
-            });
-        }).catch((error) => {
-            return res.status(500).json({
-                success: false,
-                message: 'An error occurred while updating bus location',
-            });
+        busLocation: busStop,
+        status: status
+    }).then((data) => {
+        return res.status(200).json({
+            success: true,
+            message: 'location successfully updated ',
         });
+    }).catch((error) => {
+        return res.status(500).json({
+            success: false,
+            message: 'An error occurred while updating bus location',
+        });
+    });
 }

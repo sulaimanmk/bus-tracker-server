@@ -9,9 +9,9 @@ app.use(express.json());
 dbConnection();
 app.get('/',(req,res)=>{
 
-    res.send('Hello World')
+    res.send('Hello World from developer')
 });
 app.use('/api/',approuter);
-app.listen(6000,()=>{
+app.listen(8080,()=>{
     console.log('Running!');
 }) 
